@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title="Property Location" icon-name="utility:location">
+        <div class="slds-p-around_medium">
+            <template lwc:if={hasAddress}>
+                <lightning-map
+                    map-markers={mapMarkers}
+                    zoom-level="15"
+                    markers-title="Property Location">
+                </lightning-map>
+            </template>
+
+            <template lwc:else>
+                <p>Please enter the property address.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
