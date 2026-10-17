@@ -1,0 +1,7 @@
+<aura:component
+    implements="lightning:actionOverride"
+    access="global">
+
+    <c:create_new_property />
+
+</aura:component>

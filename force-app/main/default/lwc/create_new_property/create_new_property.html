@@ -1,0 +1,178 @@
+
+<template>
+    <lightning-card title="Create Property">
+        <div style="padding: 24px 32px;">
+            <div class="slds-grid slds-wrap slds-gutters">
+
+                <!-- Full width -->
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-input
+                        label="Property Name"
+                        name="Name"
+                        value={propertyValues.Name}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-input>
+                </div>
+
+                <lightning-record-picker class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;"
+                    label="Select Tenant"
+                    placeholder="Search Tenant..."
+                    object-api-name="Tenant__c"
+                    required
+                    onchange={handleTenantChange}>
+                </lightning-record-picker>
+
+                <div class="slds-col slds-size_1-of-1" style="padding-bottom: 16px;">
+                    <lightning-textarea
+                        label="Address"
+                        name="Address__c"
+                        value={propertyValues.Address__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-textarea>
+                </div>
+
+                <!-- Half width -->
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-input 
+                        label="City" 
+                        name="City__c"
+                        value={propertyValues.City__c} 
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-input 
+                        label="State" 
+                        name="State__c" 
+                        value={propertyValues.State__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-input 
+                        label="Postal Code" 
+                        name="Postal_Code__c"
+                        value={propertyValues.Postal_Code__c} 
+                        required
+                        type="text"
+                        max-length="6"
+                        pattern="[0-9]{6}"
+                        message-when-pattern-mismatch="Enter exactly 6 digits"
+                        onchange={handleOnInputChange}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-input 
+                        label="Country" 
+                        name="Country__c" 
+                        value={propertyValues.Country__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-combobox
+                        label="Type"
+                        name="Type__c"
+                        options={typeOptions}
+                        value={propertyValues.Type__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-combobox
+                        label="Furnishing Status"
+                        name="Furnishing_Status__c"
+                        options={furnishingOptions}
+                        value={propertyValues.Furnishing_Status__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-combobox
+                        label="Status"
+                        name="Status__c"
+                        options={statusOptions}
+                        value={propertyValues.Status__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2" style="padding-bottom: 16px;">
+                    <lightning-input
+                        type="number"
+                        label="Rent"
+                        name="Rent__c"
+                        formatter="currency"
+                        value={propertyValues.Rent__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- Full width -->
+                <div class="slds-col slds-size_1-of-1" style="padding-bottom: 16px;">
+                    <lightning-textarea
+                        label="Description"
+                        name="Description__c"
+                        value={propertyValues.Description__c}
+                        required
+                        onchange={handleOnInputChange}>
+                    </lightning-textarea>
+                </div>
+
+            </div>
+
+            <div class="slds-col slds-size_1-of-1" style="padding-bottom: 16px;">
+                <lightning-input
+                    type="file"
+                    label="Upload Property Images"
+                    name="propertyImages"
+                    accept=".png,.jpg,.jpeg"
+                    multiple
+                    required
+                    onchange={handleOnFileUpload}>
+                </lightning-input>
+            </div>
+
+            <div class="slds-m-top_small">
+                <template for:each={fileData} for:item="file">
+                    <lightning-pill
+                        key={file.fileName}
+                        label={file.fileName}
+                        name={file.fileName}
+                        onremove={handleRemoveFile}
+                        class="slds-m-around_xx-small">
+                    </lightning-pill>
+                </template>
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px;">
+                <lightning-button
+                    label="Cancel"
+                    variant="neutral"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    label="Save"
+                    variant="brand"
+                    onclick={handleSave}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>
