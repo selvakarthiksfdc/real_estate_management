@@ -1,0 +1,105 @@
+<template>
+    <lightning-card title="Properties" icon-name="standard:household">
+
+        <!-- Filters -->
+        <div class="slds-p-around_medium">
+
+            <div class="slds-grid slds-wrap slds-gutters">
+
+                <!-- Minimum Rent -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-5">
+                    <lightning-input
+                        type="number"
+                        label="Min Price"
+                        value={minRent}
+                        onchange={handleMinRentChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- Maximum Rent -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-5">
+                    <lightning-input
+                        type="number"
+                        label="Max Price"
+                        value={maxRent}
+                        onchange={handleMaxRentChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- Availability Status -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-5">
+                    <lightning-combobox
+                        label="Availability Status"
+                        value={status}
+                        options={statusOptions}
+                        onchange={handleStatusChange}>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Furnishing Status -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-5">
+                    <lightning-combobox
+                        label="Furnishing Status"
+                        value={furnishingStatus}
+                        options={furnishingOptions}
+                        onchange={handleFurnishingChange}>
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-5">
+                    <lightning-input
+                        type="number"
+                        label="Distance (km)"
+                        min="0.1"
+                        step="0.1"
+                        value={distanceKm}
+                        onchange={handleDistanceChange}>
+                    </lightning-input>
+                </div>
+
+            </div>
+
+            <!-- Buttons -->
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Apply Filters"
+                    onclick={handleApplyFilters}>
+                </lightning-button>
+
+                <lightning-button
+                    class="slds-m-left_small"
+                    label="Clear Filters"
+                    onclick={handleClearFilters}>
+                </lightning-button>
+            </div>
+
+        </div>
+
+        <!-- Loading -->
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading properties">
+            </lightning-spinner>
+        </template>
+
+        <!-- Property Table -->
+        <div class="slds-p-around_medium">
+
+            <lightning-datatable
+                key-field="Id"
+                data={properties}
+                columns={columns}
+                hide-checkbox-column>
+            </lightning-datatable>
+
+            <template if:true={showNoRecords}>
+                <div class="slds-align_absolute-center slds-p-around_medium">
+                    No properties found.
+                </div>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>
