@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Lease Agreement PDF" icon-name="doctype:pdf">
+        <div class="slds-p-around_medium">
+            <p class="slds-m-bottom_medium">
+                Generate or send a PDF for this lease agreement to the tenant's email address.
+            </p>
+
+            <lightning-button
+                label="Download PDF"
+                variant="brand"
+                onclick={handleDownload}
+                disabled={isLoading}>
+            </lightning-button>
+
+            <lightning-button
+                class="slds-m-left_small"
+                label="Send Email"
+                variant="neutral"
+                onclick={handleSendEmail}
+                disabled={isLoading}>
+            </lightning-button>
+
+            <template if:true={isLoading}>
+                <lightning-spinner
+                    alternative-text="Generating PDF">
+                </lightning-spinner>
+            </template>
+        </div>
+    </lightning-card>
+</template>
