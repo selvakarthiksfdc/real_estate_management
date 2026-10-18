@@ -1,35 +1,53 @@
+
 public with sharing class PropertyListController {
 
+    public class PropertyPage {
+        @AuraEnabled
+        public List<Property__c> records { get; set; }
+
+        @AuraEnabled
+        public Integer totalRecords { get; set; }
+    }
+
     @AuraEnabled(cacheable=true)
-    public static List<Property__c> getProperties(
+    public static PropertyPage getProperties(
         Decimal minRent,
         Decimal maxRent,
         String availabilityStatus,
         String furnishingStatus,
         Decimal distanceKm,
         Decimal userLatitude,
-        Decimal userLongitude
+        Decimal userLongitude,
+        Integer pageSize,
+        Integer pageNumber
     ) {
-        String query = 
-            'SELECT Id, Name, Address__c, City__c, State__c, ' +
-            'Country__c, Postal_Code__c, Rent__c, Status__c, ' +
-            'Furnishing_Status__c, Type__c ' +
-            'FROM Property__c WHERE Id != null';
+        // Validate pagination inputs
+        if (pageSize == null || pageSize < 1 || pageSize > 200) {
+            pageSize = 25;
+        }
+
+        if (pageNumber == null || pageNumber < 1) {
+            pageNumber = 1;
+        }
+
+        Integer recordOffset = (pageNumber - 1) * pageSize;
+
+        String whereClause = ' WHERE Id != null';
 
         if (minRent != null) {
-            query += ' AND Rent__c >= :minRent';
+            whereClause += ' AND Rent__c >= :minRent';
         }
 
         if (maxRent != null) {
-            query += ' AND Rent__c <= :maxRent';
+            whereClause += ' AND Rent__c <= :maxRent';
         }
 
         if (String.isNotBlank(availabilityStatus)) {
-            query += ' AND Status__c = :availabilityStatus';
+            whereClause += ' AND Status__c = :availabilityStatus';
         }
 
         if (String.isNotBlank(furnishingStatus)) {
-            query += ' AND Furnishing_Status__c = :furnishingStatus';
+            whereClause += ' AND Furnishing_Status__c = :furnishingStatus';
         }
 
         if (
@@ -37,13 +55,33 @@ public with sharing class PropertyListController {
             userLatitude != null &&
             userLongitude != null
         ) {
-            query += ' AND DISTANCE(Geocode__c, ' +
-                    'GEOLOCATION(:userLatitude, :userLongitude), ' +
-                    '\'km\') < :distanceKm';
+            whereClause +=
+                ' AND DISTANCE(Geocode__c, ' +
+                'GEOLOCATION(:userLatitude, :userLongitude), \'km\') ' +
+                '< :distanceKm';
         }
 
-        query += ' ORDER BY CreatedDate DESC LIMIT 500';
+        // Count all records matching the filters
+        String countQuery =
+            'SELECT COUNT() FROM Property__c' + whereClause;
 
-        return Database.query(query);
+        Integer totalCount = Database.countQuery(countQuery);
+
+        // Fetch only the current page
+        String query =
+            'SELECT Id, Name, Address__c, City__c, State__c, ' +
+            'Country__c, Postal_Code__c, Rent__c, Status__c, ' +
+            'Furnishing_Status__c, Type__c ' +
+            'FROM Property__c' + whereClause +
+            ' ORDER BY CreatedDate DESC, Id DESC' +
+            ' LIMIT :pageSize OFFSET :recordOffset';
+
+        List<Property__c> properties = Database.query(query);
+
+        PropertyPage result = new PropertyPage();
+        result.records = properties;
+        result.totalRecords = totalCount;
+
+        return result;
     }
 }

@@ -99,14 +99,10 @@ export default class PropertyList extends NavigationMixin(LightningElement) {
     }
 
     async loadProperties() {
-
         this.isLoading = true;
 
-        console.log("data: ",this.minRent, this.maxRent, this.status, this.furnishingStatus, this.distanceKm)
-
         try {
-
-            this.properties = await getProperties({
+            const result = await getProperties({
                 minRent: this.minRent,
                 maxRent: this.maxRent,
                 availabilityStatus: this.status,
@@ -114,21 +110,28 @@ export default class PropertyList extends NavigationMixin(LightningElement) {
                 distanceKm: this.distanceKm !== null && this.distanceKm !== ''
                     ? Number(this.distanceKm) : null,
                 userLatitude: this.userLatitude,
-                userLongitude: this.userLongitude
+                userLongitude: this.userLongitude,
+                pageSize: this.pageSize,
+                pageNumber: this.currentPage
             });
-            this.properties = this.properties.map(property=>({
-                    ...property,recordUrl: '/'+property.Id
-                })
-            );
+
+            this.properties = result.records.map(property => ({
+                ...property,
+                recordUrl: '/' + property.Id
+            }));
+
+            this.totalRecords = result.totalRecords;
 
         } catch (error) {
-
             console.error('Error loading properties:', error);
 
+            this.showToast(
+                'Error',
+                error.body?.message || 'Unable to load properties.',
+                'error'
+            );
         } finally {
-
             this.isLoading = false;
-
         }
     }
 
@@ -188,16 +191,18 @@ export default class PropertyList extends NavigationMixin(LightningElement) {
     }
 
     handleApplyFilters() {
+        this.currentPage = 1;
         this.loadProperties();
     }
 
     handleClearFilters() {
-
         this.minRent = null;
         this.maxRent = null;
         this.status = '';
         this.furnishingStatus = '';
+        this.distanceKm = null;
 
+        this.currentPage = 1;
         this.loadProperties();
     }
 
@@ -215,6 +220,22 @@ export default class PropertyList extends NavigationMixin(LightningElement) {
         return !this.isLoading && this.properties.length === 0;
     }
 
+    currentPage = 1;
+    pageSize = 25;
+    totalRecords = 0;
+
+    get totalPages() {
+        return Math.max(1, Math.ceil(this.totalRecords / this.pageSize));
+    }
+
+    get isPreviousDisabled() {
+        return this.currentPage <= 1 || this.isLoading;
+    }
+
+    get isNextDisabled() {
+        return this.currentPage >= this.totalPages || this.isLoading;
+    }
+
     showToast(title, message, variant){
         this.dispatchEvent(
             new ShowToastEvent({
@@ -223,5 +244,19 @@ export default class PropertyList extends NavigationMixin(LightningElement) {
                 variant:variant
             })
         )
+    }
+
+    handlePrevious() {
+        if (this.currentPage > 1) {
+            this.currentPage--;
+            this.loadProperties();
+        }
+    }
+
+    handleNext() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage++;
+            this.loadProperties();
+        }
     }
 }
