@@ -76,14 +76,7 @@
         <connector>
             <targetReference>Create_Task</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Tenant__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
+        <filterFormula>{!$Record.Tenant__c} &lt;&gt; {!$Record__Prior.Tenant__c}</filterFormula>
         <object>Property__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
