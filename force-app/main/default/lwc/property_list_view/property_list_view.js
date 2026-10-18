@@ -1,8 +1,9 @@
 import { LightningElement, track } from 'lwc';
 import getProperties from '@salesforce/apex/PropertyListController.getProperties';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { NavigationMixin } from 'lightning/navigation';
 
-export default class PropertyList extends LightningElement {
+export default class PropertyList extends NavigationMixin(LightningElement) {
 
     @track properties = [];
 
@@ -198,6 +199,16 @@ export default class PropertyList extends LightningElement {
         this.furnishingStatus = '';
 
         this.loadProperties();
+    }
+
+    handleNew() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Property__c',
+                actionName: 'new'
+            }
+        });
     }
 
     get showNoRecords() {

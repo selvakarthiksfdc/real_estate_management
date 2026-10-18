@@ -1,6 +1,12 @@
 <template>
     <lightning-card title="Properties" icon-name="standard:household">
 
+        <lightning-button
+            label="New"
+            slot="actions"
+            onclick={handleNew}>
+        </lightning-button>
+
         <!-- Filters -->
         <div class="slds-p-around_medium">
 
@@ -72,6 +78,7 @@
                     label="Clear Filters"
                     onclick={handleClearFilters}>
                 </lightning-button>
+
             </div>
 
         </div>
