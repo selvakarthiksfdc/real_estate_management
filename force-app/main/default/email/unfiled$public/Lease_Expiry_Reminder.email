@@ -1,0 +1,10 @@
+Dear {!Lease_Agreement__c.Property__r.Tenant__r.Name},
+
+{{ReminderType}}
+
+Your lease agreement {!Lease_Agreement__c.Name}
+expires on {!Lease_Agreement__c.End_Date__c}.
+
+Monthly Rent: {!Lease_Agreement__c.Agreed_Monthly_Rent__c}
+
+Days remaining: {{DaysUntilExpiry}}
