@@ -14,7 +14,8 @@
     <label>Real Estate Property Management</label>
     <navType>Standard</navType>
     <tabs>Tenant__c</tabs>
-    <tabs>Property__c</tabs>
+    <tabs>Custom_Property_List_View</tabs>
+    <tabs>Lease_Agreement__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Real_Estate_Property_Management_UtilityBar</utilityBar>
 </CustomApplication>

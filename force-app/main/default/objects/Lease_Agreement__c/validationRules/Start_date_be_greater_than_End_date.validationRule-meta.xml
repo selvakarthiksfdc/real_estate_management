@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_date_be_greater_than_End_date</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(Start_Date__c &lt;=  End_Date__c)</errorConditionFormula>
+    <errorMessage>Start date must be always lesser than End date</errorMessage>
+</ValidationRule>
