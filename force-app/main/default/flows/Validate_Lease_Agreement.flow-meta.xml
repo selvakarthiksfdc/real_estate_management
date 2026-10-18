@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>68.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <customErrors>
         <name>Overlapping_of_existing_LA</name>
         <label>Overlapping of existing LA</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <connector>
-            <targetReference>END_ELEMENT_1</targetReference>
-        </connector>
         <customErrorMessages>
             <errorMessage>There is already a Lease Agreement for this property in the specified timeline</errorMessage>
             <isFieldError>false</isFieldError>
@@ -20,9 +16,6 @@
         <label>Check for overlap records</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>END_ELEMENT_1</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Overlapped</name>
@@ -40,11 +33,6 @@
             <label>Overlapped?</label>
         </rules>
     </decisions>
-    <ends>
-        <name>END_ELEMENT_1</name>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-    </ends>
     <environments>Default</environments>
     <interviewLabel>Validate Lease Agreement {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Validate Lease Agreement</label>

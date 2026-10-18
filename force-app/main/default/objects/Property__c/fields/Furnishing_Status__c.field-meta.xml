@@ -4,6 +4,7 @@
     <description>Indicates the furnishing condition of the property as Furnished, Semi-Furnished, or Unfurnished to help tenants filter properties based on their preferences.</description>
     <label>Furnishing Status</label>
     <required>true</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

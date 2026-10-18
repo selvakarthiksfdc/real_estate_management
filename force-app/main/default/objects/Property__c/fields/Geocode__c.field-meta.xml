@@ -5,6 +5,7 @@
     <label>Geocode</label>
     <required>false</required>
     <scale>6</scale>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Location</type>
 </CustomField>

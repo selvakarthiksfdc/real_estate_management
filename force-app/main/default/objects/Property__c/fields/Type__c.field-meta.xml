@@ -4,6 +4,7 @@
     <description>Specifies the property category as Residential or Commercial to classify properties and support property filtering and management.</description>
     <label>Type</label>
     <required>true</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

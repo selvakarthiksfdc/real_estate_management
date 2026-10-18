@@ -48,6 +48,7 @@ public with sharing class LeaseExpiryReminderBatch
         List<Messaging.SingleEmailMessage> emails =
             new List<Messaging.SingleEmailMessage>();
 
+        // Keep the corresponding lease for each email result.
         List<Lease_Agreement__c> emailLeases =
             new List<Lease_Agreement__c>();
 
@@ -138,6 +139,7 @@ public with sharing class LeaseExpiryReminderBatch
         }
     }
 
+    // Replace merge-field strings manually in the template.
     private static String replaceMergeFields(
         String content,
         Lease_Agreement__c lease,
@@ -186,6 +188,7 @@ public with sharing class LeaseExpiryReminderBatch
             tenantName
         );
 
+        // Custom placeholders for the reminder message.
         content = content.replace(
             '{{ReminderType}}', reminderType
         );
@@ -200,6 +203,7 @@ public with sharing class LeaseExpiryReminderBatch
         
     }
 
+    // Run the batch every day through the scheduler.
     public void execute(SchedulableContext sc) {
         Database.executeBatch(new LeaseExpiryReminderBatch(), 10);
     }

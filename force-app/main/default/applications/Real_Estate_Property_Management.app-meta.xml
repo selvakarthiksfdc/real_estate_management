@@ -13,9 +13,11 @@
     <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Real Estate Property Management</label>
     <navType>Standard</navType>
-    <tabs>Tenant__c</tabs>
     <tabs>Custom_Property_List_View</tabs>
+    <tabs>Tenant__c</tabs>
     <tabs>Lease_Agreement__c</tabs>
+    <tabs>Vendor__c</tabs>
+    <tabs>Maintenance_Request__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Real_Estate_Property_Management_UtilityBar</utilityBar>
 </CustomApplication>
